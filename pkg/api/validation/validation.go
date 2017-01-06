@@ -621,6 +621,14 @@ func validateVolumeSource(source *api.VolumeSource, fldPath *field.Path) field.E
 			allErrs = append(allErrs, validateQuobyteVolumeSource(source.Quobyte, fldPath.Child("quobyte"))...)
 		}
 	}
+	if source.Fuxi != nil {
+		if numVolumes > 0 {
+			allErrs = append(allErrs, field.Forbidden(fldPath.Child("fuxi"), "may not specify more than 1 volume type"))
+		} else {
+			numVolumes++
+			allErrs = append(allErrs, validateFuxiVolumeSource(source.Fuxi, fldPath.Child("fuxi"))...)
+		}
+	}
 	if source.DownwardAPI != nil {
 		if numVolumes > 0 {
 			allErrs = append(allErrs, field.Forbidden(fldPath.Child("downwarAPI"), "may not specify more than 1 volume type"))
@@ -845,6 +853,14 @@ func validateQuobyteVolumeSource(quobyte *api.QuobyteVolumeSource, fldPath *fiel
 	}
 
 	if len(quobyte.Volume) == 0 {
+		allErrs = append(allErrs, field.Required(fldPath.Child("volume"), ""))
+	}
+	return allErrs
+}
+
+func validateFuxiVolumeSource(fuxi *api.FuxiVolumeSource, fldPath *field.Path) field.ErrorList {
+	allErrs := field.ErrorList{}
+	if len(fuxi.Volume) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("volume"), ""))
 	}
 	return allErrs
@@ -1125,6 +1141,14 @@ func ValidatePersistentVolume(pv *api.PersistentVolume) field.ErrorList {
 		} else {
 			numVolumes++
 			allErrs = append(allErrs, validateQuobyteVolumeSource(pv.Spec.Quobyte, specPath.Child("quobyte"))...)
+		}
+	}
+	if pv.Spec.Fuxi != nil {
+		if numVolumes > 0 {
+			allErrs = append(allErrs, field.Forbidden(specPath.Child("fuxi"), "may not specify more than 1 volume type"))
+		} else {
+			numVolumes++
+			allErrs = append(allErrs, validateFuxiVolumeSource(pv.Spec.Fuxi, specPath.Child("fuxi"))...)
 		}
 	}
 	if pv.Spec.CephFS != nil {

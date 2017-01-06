@@ -17658,6 +17658,10 @@
       "$ref": "v1.PhotonPersistentDiskVolumeSource",
       "description": "PhotonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine"
      },
+     "fuxi": {
+      "$ref": "v1.FuxiVolumeSource",
+      "description": "Fuxi represents a Fuxi volume attached to a kubelet's host machine"
+     },
      "accessModes": {
       "type": "array",
       "items": {
@@ -18123,6 +18127,24 @@
       "type": "string",
       "description": "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified."
      }
+    }
+   },
+   "v1.FuxiVolumeSource": {
+    "id": "v1.FuxiVolumeSource",
+    "description": "Represents a volume create by fuxi-server.",
+    "required": [
+     "volume"
+    ],
+    "properties": {
+     "volume": {
+      "type": "string",
+      "description": "Volume is a string that references an already created Quobyte volume by name."
+     },
+     "options": {
+      "type": "object",
+      "description": "Optional: Extra options if any."
+     }
+    }
     }
    },
    "v1.PersistentVolumeStatus": {

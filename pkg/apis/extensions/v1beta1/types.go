@@ -1148,6 +1148,7 @@ var (
 	ConfigMap             FSType = "configMap"
 	Quobyte               FSType = "quobyte"
 	AzureDisk             FSType = "azureDisk"
+	Fuxi                  FSType = "fuxi"
 	All                   FSType = "*"
 )
 

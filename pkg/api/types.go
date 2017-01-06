@@ -253,6 +253,8 @@ type VolumeSource struct {
 	// Quobyte represents a Quobyte mount on the host that shares a pod's lifetime
 	// +optional
 	Quobyte *QuobyteVolumeSource `json:"quobyte,omitempty"`
+	// Fuxi represents a Fuxi mount on the host that shares a pod's lifetime
+	Fuxi *FuxiVolumeSource `json:"fuxi,omitempty"`
 
 	// FlexVolume represents a generic volume resource that is
 	// provisioned/attached using an exec based plugin. This is an alpha feature and may change in future.
@@ -322,6 +324,8 @@ type PersistentVolumeSource struct {
 	// Quobyte represents a Quobyte mount on the host that shares a pod's lifetime
 	// +optional
 	Quobyte *QuobyteVolumeSource `json:"quobyte,omitempty"`
+	// Fuxi represents a Fuxi mount on the host that shares a pod's lifetime
+	Fuxi *FuxiVolumeSource `json:"fuxi,omitempty"`
 	// ISCSIVolumeSource represents an ISCSI resource that is attached to a
 	// kubelet's host machine and then exposed to the pod.
 	// +optional
@@ -781,6 +785,15 @@ type QuobyteVolumeSource struct {
 	// Default is no group
 	// +optional
 	Group string `json:"group,omitempty"`
+}
+
+// Represents a Fuxi mount that lasts the lifetime of a pod.
+// Fuxi volumes do not support ownership management or SELinux relabeling.
+type FuxiVolumeSource struct {
+	// Volume is a string that references an already created Quobyte volume by name.
+	Volume string `json:"volume"`
+	// Optional: Extra volume options if any.
+	Options map[string]string `json:"options,omitempty"`
 }
 
 // Represents a Glusterfs mount that lasts the lifetime of a pod.

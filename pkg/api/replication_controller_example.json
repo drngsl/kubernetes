@@ -41,7 +41,8 @@
                         "nfs": null,
                         "iscsi": null,
                         "glusterfs": null,
-                        "quobyte": null
+                        "quobyte": null,
+                        "fuxi": null
                     }
                 ],
                 "containers": [

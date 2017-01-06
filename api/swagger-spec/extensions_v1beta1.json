@@ -8228,6 +8228,10 @@
      "photonPersistentDisk": {
       "$ref": "v1.PhotonPersistentDiskVolumeSource",
       "description": "PhotonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine"
+     },
+     "fuxi": {
+      "$ref": "v1.FuxiVolumeSource",
+      "description": "Quobyte represents a Quobyte mount on the host that shares a pod's lifetime"
      }
     }
    },

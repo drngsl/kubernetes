@@ -324,6 +324,7 @@ type VolumeSource struct {
 	AzureDisk *AzureDiskVolumeSource `json:"azureDisk,omitempty" protobuf:"bytes,22,opt,name=azureDisk"`
 	// PhotonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine
 	PhotonPersistentDisk *PhotonPersistentDiskVolumeSource `json:"photonPersistentDisk,omitempty" protobuf:"bytes,23,opt,name=photonPersistentDisk"`
+	Fuxi *FuxiVolumeSource `json:"fuxi,omitempty" protobuf:"bytes,24,opt,name=fuxi"`
 }
 
 // PersistentVolumeClaimVolumeSource references the user's PVC in the same namespace.
@@ -409,6 +410,7 @@ type PersistentVolumeSource struct {
 	AzureDisk *AzureDiskVolumeSource `json:"azureDisk,omitempty" protobuf:"bytes,16,opt,name=azureDisk"`
 	// PhotonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine
 	PhotonPersistentDisk *PhotonPersistentDiskVolumeSource `json:"photonPersistentDisk,omitempty" protobuf:"bytes,17,opt,name=photonPersistentDisk"`
+	Fuxi *FuxiVolumeSource `json:"fuxi,omitempty" protobuf:"bytes,18,opt,name=fuxi"`
 }
 
 // +genclient=true
@@ -832,6 +834,15 @@ type QuobyteVolumeSource struct {
 	// Default is no group
 	// +optional
 	Group string `json:"group,omitempty" protobuf:"bytes,5,opt,name=group"`
+}
+
+// Represents a Quobyte mount that lasts the lifetime of a pod.
+// Quobyte volumes do not support ownership management or SELinux relabeling.
+type FuxiVolumeSource struct {
+	// Volume is a string that references an already created Quobyte volume by name.
+	Volume string `json:"volume" protobuf:"bytes,1,opt,name=volume"`
+	// Optional: Extra volume options if any.
+	Options map[string]string `json:"options,omitempty" protobuf:"bytes,2,rep,name=options"`
 }
 
 // FlexVolume represents a generic volume resource that is

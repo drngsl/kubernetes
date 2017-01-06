@@ -566,6 +566,8 @@ func describeVolumes(volumes []api.Volume, out io.Writer, space string) {
 			printRBDVolumeSource(volume.VolumeSource.RBD, out)
 		case volume.VolumeSource.Quobyte != nil:
 			printQuobyteVolumeSource(volume.VolumeSource.Quobyte, out)
+		case volume.VolumeSource.Fuxi != nil:
+			printFuxiVolumeSource(volume.VolumeSource.Fuxi, out)
 		case volume.VolumeSource.DownwardAPI != nil:
 			printDownwardAPIVolumeSource(volume.VolumeSource.DownwardAPI, out)
 		case volume.VolumeSource.AzureDisk != nil:
@@ -641,6 +643,12 @@ func printQuobyteVolumeSource(quobyte *api.QuobyteVolumeSource, out io.Writer) {
 		"    Volume:\t%v\n"+
 		"    ReadOnly:\t%v\n",
 		quobyte.Registry, quobyte.Volume, quobyte.ReadOnly)
+}
+
+func printFuxiVolumeSource(fuxi *api.FuxiVolumeSource, out io.Writer) {
+	fmt.Fprintf(out, "    Type:\tQuobyte (a Quobyte mount on the host that shares a pod's lifetime)\n"+
+		"    Volume:\t%v\n",
+		fuxi.Volume)
 }
 
 func printISCSIVolumeSource(iscsi *api.ISCSIVolumeSource, out io.Writer) {
@@ -786,6 +794,8 @@ func (d *PersistentVolumeDescriber) Describe(namespace, name string, describerSe
 			printAzureDiskVolumeSource(pv.Spec.AzureDisk, out)
 		case pv.Spec.PhotonPersistentDisk != nil:
 			printPhotonPersistentDiskVolumeSource(pv.Spec.PhotonPersistentDisk, out)
+		case pv.Spec.Fuxi != nil:
+			printFuxiVolumeSource(pv.Spec.Fuxi, out)
 		}
 
 		if events != nil {
